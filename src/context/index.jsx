@@ -29,15 +29,20 @@ function ShoppingCartProvider({children}) {
 
     function handleAddToCart(product) {
         let cpyExistingCart = [...cartItems];
-        const findIndexOfCurrentItem = cpyExistingCart.findIndex(cartItem => cartItem.id === cpyExistingCart.id)
-        if (findIndexOfCurrentItem == -1) { //item is not present in the cart already
+        const findIndexOfCurrentItem = cpyExistingCart.findIndex(cartItem => cartItem.id === product.id)
+        if (findIndexOfCurrentItem === -1) { //item is not present in the cart already
             cpyExistingCart.push({
                 ...product,
                 quantity: 1,
                 totalPrice: product?.price
             })
         } else { //product is already in the cart, increase the quantity
-
+            let updatedQuantity = cpyExistingCart[findIndexOfCurrentItem].quantity + 1;
+            cpyExistingCart[findIndexOfCurrentItem] = {
+                ...cpyExistingCart[findIndexOfCurrentItem],
+                quantity: updatedQuantity,
+                totalPrice: updatedQuantity * (cpyExistingCart[findIndexOfCurrentItem].price)
+            }
         }
 
         setCartItems(cpyExistingCart)
@@ -52,11 +57,12 @@ function ShoppingCartProvider({children}) {
         if (removeFully) {
             cpyCartItems.splice(findIndexOfCurrentCartItem, 1)
         } else {
+            const updatedQuantity = cpyCartItems[findIndexOfCurrentCartItem].quantity - 1;
             cpyCartItems[findIndexOfCurrentCartItem] = {
                 ...cpyCartItems[findIndexOfCurrentCartItem],
-                quantity: cpyCartItems[findIndexOfCurrentCartItem].quantity - 1,
-                totalPrice: (cpyCartItems[findIndexOfCurrentCartItem].quantity) * cpyCartItems[findIndexOfCurrentCartItem].price
-            }
+                quantity: updatedQuantity,
+                totalPrice: updatedQuantity * cpyCartItems[findIndexOfCurrentCartItem].price
+            };
         }
 
         localStorage.setItem("cartItems", JSON.stringify(cpyCartItems))

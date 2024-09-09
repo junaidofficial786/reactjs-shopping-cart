@@ -1,8 +1,11 @@
 import { useNavigate } from "react-router-dom";
+import {useContext} from "react";
+import {ShoppingCartContext} from "../../context/index.jsx";
 
 export default function ProjectTile({product}) {
 
     const navigate = useNavigate()
+    const {handleAddToCart} = useContext(ShoppingCartContext)
 
     function handleProductDetailView (productId) {
         navigate(`/product-details/${productId}`)
@@ -16,6 +19,9 @@ export default function ProjectTile({product}) {
                 <p className="text-gray-600">${product.price}</p>
                 <button onClick={()=> handleProductDetailView(product.id)} className="bg-gray-700 text-white">
                     View Details
+                </button>
+                <button onClick={()=> handleAddToCart(product)} className="bg-gray-700 text-white">
+                    Add To Cart
                 </button>
             </div>
         </>

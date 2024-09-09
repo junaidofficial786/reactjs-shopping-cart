@@ -22,11 +22,11 @@ export default function cartListPage() {
                     <h3 className="text-xl font-extrabold text-gray-950 border-b border-gray-300">Order Summary</h3>
                     <ul className="text-gray-700 mt-4 space-y-2">
                         <p className="flex flex-wrap gap-4 text-sm font-bold">
-                            Total <span></span>
+                            Total <span>{cartItems.reduce((acc, curr)=> acc +curr.totalPrice, 0).toFixed(2)}</span>
                         </p>
                     </ul>
                     <div className="mt-5 flex gap-2">
-                        <button className="text-sm px-4 py-2 bg-black text-white">Checkout</button>
+                        <button disabled={cartItems.length === 0} className="disabled:opacity-25 px-4 py-2 bg-black text-white">Checkout</button>
                         <button className=" text-white text-sm px-4 py-2 bg-black" onClick={()=>navigate("/products")}>Continue Shopping</button>
                     </div>
                 </div>
